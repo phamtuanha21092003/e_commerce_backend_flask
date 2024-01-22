@@ -54,24 +54,6 @@ class UploadService:
         )
         file_name = re.sub(r"[^a-zA-Z0-9._-]+", '', file.filename)
         try:
-            bucket = s3_resource.Bucket(bucket_name)
-            list_file = list(bucket.objects.filter(Prefix=suffix))
-            if list_file:
-                file_name = list_file[0].key.split('/')[-1]
-                is_resize = False
-                if ("." in file_name):
-                    for s3_file in list_file:
-                        split_l = s3_file.key.split('/')[-1]
-                        if not ("." in split_l):
-                            continue
-                        split_l = split_l.rsplit(".", 1)[0]
-                        split_i = file_name.rsplit(".", 1)[0]
-                        if split_l == '{}_96'.format(split_i):
-                            is_resize = True
-                if not is_resize:
-                    print("Re optimize image")
-                return "{}{}".format(UploadService.CDN, list_file[0].key)
-
             s3.upload_fileobj(
                 file,
                 bucket_name,
