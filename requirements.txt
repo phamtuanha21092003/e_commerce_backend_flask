@@ -8,3 +8,6 @@ psycopg2-binary==2.9.9
 flask-marshmallow==1.1.0
 python-dotenv==1.0.0
 flask-migrate==4.0.5
+flask-restful==0.3.10
+sqlalchemy-utils==0.41.1
+marshmallow-sqlalchemy==0.30.0

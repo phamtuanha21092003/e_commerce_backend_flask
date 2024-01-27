@@ -19,7 +19,6 @@ class UploadService:
             output = self.upload_file_to_s3(
                 file, UploadService.S3_BUCKET, suffix=suffix
             )
-            print("Image saved")
             return str(output)
         else:
             raise UBadRequest("That file extension is not allowed")

@@ -1,7 +1,6 @@
 venv
 .env
 .venv
-migrations
 __pycache__/
 .vscode
 data

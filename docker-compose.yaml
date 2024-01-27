@@ -3,11 +3,10 @@ version: "3.3"
 services:
   postgres:
     image: postgres:16.1-alpine3.18
-    restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123456
-      - POSTGRES_DB=express
+      - POSTGRES_DB=ecommerce
       - POSTGRES_AUTH_METHOD=md5
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
@@ -35,21 +34,21 @@ services:
     volumes:
       - ./data/minio:/data
 
-  ecommerce_backend:
-    build:
-      context: .
-      dockerfile_inline: |
-        FROM python:3.10
-        WORKDIR /app
-        COPY  requirements.txt /app/
-        RUN pip install -r /app/requirements.txt
-    command: ["flask", "run", "--host=0.0.0.0", "--port=8080"]
-    volumes:
-      - ./:/app
-    env_file:
-      - .env
-    depends_on:
-      - postgres
-      - minio
-    ports:
-      - 8080:8080
+  # ecommerce_backend:
+  #   build:
+  #     context: .
+  #     dockerfile_inline: |
+  #       FROM python:3.10
+  #       WORKDIR /app
+  #       COPY  requirements.txt /app/
+  #       RUN pip install -r /app/requirements.txt
+  #   command: ["flask", "run", "--host=0.0.0.0", "--port=8080"]
+  #   volumes:
+  #     - ./:/app
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     - postgres
+  #     - minio
+  #   ports:
+  #     - 8080:8080
