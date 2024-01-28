@@ -11,7 +11,7 @@ def validate_body(validate_schema, many=False):
 
     def validate_decorator(func):
         @wraps(func)
-        def func_wrapper(*args, **kwargs):
+        def wrapper(*args, **kwargs):
             content_type = request.headers.get('Content-Type', '')
 
             if is_form(content_type):
@@ -23,6 +23,6 @@ def validate_body(validate_schema, many=False):
 
             return func(*args, **kwargs)
 
-        return func_wrapper
+        return wrapper
 
     return validate_decorator

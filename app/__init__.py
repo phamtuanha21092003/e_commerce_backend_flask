@@ -3,7 +3,7 @@ from db import db
 from config import Config
 from flask_migrate import Migrate
 from schemas import ma
-from app.apis import upload_api, auth_api
+from app.apis import upload_api, auth_api, product_api
 from flask_cors import CORS
 from marshmallow import ValidationError
 from sqlalchemy.exc import IntegrityError
@@ -26,6 +26,7 @@ def create_app(config_class=Config):
 
     app.register_blueprint(upload_api, url_prefix="/api")
     app.register_blueprint(auth_api, url_prefix="/api/auth")
+    app.register_blueprint(product_api, url_prefix="/api/product")
 
     return app
 
