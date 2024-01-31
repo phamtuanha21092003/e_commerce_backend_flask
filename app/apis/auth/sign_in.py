@@ -30,4 +30,6 @@ def sign_in():
         "access_token": access_token,
         "refresh_token": refresh_token,
         "user_id": account["id"],
+        "role": account["role"],
+        "username": account["username"],
     }
