@@ -3,8 +3,7 @@ from db import session
 
 
 @contextmanager
-def session_scope(scope=session, auto_commit=True, auto_close=True):
-    session = scope
+def session_scope(auto_commit=True, auto_close=True):
     try:
         yield session
         if auto_commit:
