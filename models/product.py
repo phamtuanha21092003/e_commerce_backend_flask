@@ -1,5 +1,7 @@
 from db import db
 from sqlalchemy import JSON
+from sqlalchemy.orm import Mapped
+from typing import List
 
 
 class Product(db.Model):
@@ -9,12 +11,22 @@ class Product(db.Model):
     name = db.Column(db.String(100), nullable=False, index=True)
     description = db.Column(db.String(1000), nullable=False)
     images = db.Column(JSON, nullable=False)
-    brand = db.Column(db.String(100), nullable=False, index=True)
-    sold = db.Column(db.Integer, nullable=False, default=0)
+    sold_quantity = db.Column(db.Integer, nullable=False, default=0)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(
         db.DateTime, server_default=db.func.now(), onupdate=db.func.now()
     )
-    category_id = db.Column(db.Integer, db.ForeignKey("categories.id"), nullable=False, index=True)
+    brand_id = db.Column(
+        db.Integer, db.ForeignKey("brands.id"), nullable=False, index=True
+    )
+    brand = db.relationship("Brand", back_populates="products")
+    category_id = db.Column(
+        db.Integer, db.ForeignKey("categories.id"), nullable=False, index=True
+    )
     category = db.relationship("Category", back_populates="products")
-    variants = db.relationship("Variant", back_populates="product", cascade="all, delete-orphan")
+    product_variant_options: Mapped[List["ProductVariantOption"]] = db.relationship(
+        back_populates="product"
+    )
+    product_combinations: Mapped[List["ProductCombination"]] = db.relationship(
+        back_populates="product"
+    )
