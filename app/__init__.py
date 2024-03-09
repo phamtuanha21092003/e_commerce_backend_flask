@@ -7,7 +7,7 @@ from app.apis import upload_api, auth_api, product_api
 from flask_cors import CORS
 from marshmallow import ValidationError
 from sqlalchemy.exc import IntegrityError
-from app.helpers.errors import UBadRequest
+from app.helpers.errors import UBadRequest, UForbidden, UPermissionDenied
 
 
 migrate = Migrate()
@@ -55,4 +55,21 @@ def _config_error_handlers(app):
 
     @app.errorhandler(UBadRequest)
     def u_bad_request_handler(error):
-        return jsonify({"error": str(error)}), 400  
+        return jsonify({"error": str(error)}), 400
+
+    @app.errorhandler(500)
+    def server_error_page(error):
+        return jsonify({"error": "Internal server error"}), 500
+
+    @app.errorhandler(UForbidden)
+    def forbidden(error):
+        return jsonify({"error": str(error) or "Forbidden"}), 403
+
+    @app.errorhandler(404)
+    def page_not_found(error):
+        return jsonify({'error': 'Resource not found'}), 404
+
+    @app.errorhandler(UPermissionDenied)
+    def permission_denied(error):
+        return jsonify({'error': 'Permission denied'}), 401
+
